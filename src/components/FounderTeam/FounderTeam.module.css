@@ -1,0 +1,137 @@
+.section {
+  @apply section-padding;
+  background: linear-gradient(180deg, #0B1220 0%, #1e293b 100%);
+}
+
+.header {
+  @apply text-center mb-16;
+}
+
+.title {
+  @apply text-3xl md:text-5xl font-bold font-sora mb-6;
+}
+
+.subtitle {
+  @apply text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed;
+}
+
+.foundersGrid {
+  @apply grid md:grid-cols-2 gap-12 mb-20;
+}
+
+.founderCard {
+  @apply relative p-8 rounded-3xl glass-effect transition-all duration-500;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.05), rgba(13, 148, 136, 0.05));
+}
+
+.founderCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(20, 184, 166, 0.2);
+}
+
+.founderImageContainer {
+  @apply relative mb-6;
+}
+
+.imageWrapper {
+  @apply relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden;
+  background: linear-gradient(135deg, #14B8A6, #0d9488);
+  padding: 3px;
+}
+
+.founderImage {
+  @apply object-cover rounded-full;
+}
+
+.founderGlow {
+  @apply absolute inset-0 rounded-full animate-glow;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.3), rgba(13, 148, 136, 0.3));
+  filter: blur(20px);
+  z-index: -1;
+}
+
+.founderInfo {
+  @apply text-center;
+}
+
+.founderName {
+  @apply text-2xl font-bold font-sora mb-2 gradient-text;
+}
+
+.founderTitle {
+  @apply text-lg font-semibold text-gray-300 mb-1;
+}
+
+.founderOrg {
+  @apply text-primary-500 font-medium mb-4;
+}
+
+.founderSocials {
+  @apply flex justify-center space-x-4;
+}
+
+.socialLink {
+  @apply p-3 rounded-full glass-effect hover:bg-primary-500 hover:text-white transition-all duration-300;
+}
+
+.visionStatement {
+  @apply mb-20;
+}
+
+.visionContent {
+  @apply text-center max-w-4xl mx-auto p-8 rounded-2xl glass-effect;
+}
+
+.visionTitle {
+  @apply text-2xl font-bold font-sora mb-6 gradient-text;
+}
+
+.visionQuote {
+  @apply text-lg text-gray-300 italic leading-relaxed;
+}
+
+.teamSectionTitle {
+  @apply text-2xl font-bold font-sora text-center mb-8 gradient-text;
+}
+
+.teamCards {
+  @apply grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6;
+}
+
+.teamCard {
+  @apply p-6 rounded-2xl glass-effect transition-all duration-300 hover:transform hover:-translate-y-2;
+}
+
+.teamImageContainer {
+  @apply relative w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden;
+  background: linear-gradient(135deg, #14B8A6, #0d9488);
+  padding: 2px;
+}
+
+.teamImage {
+  @apply object-cover rounded-full;
+}
+
+.teamInfo {
+  @apply text-center;
+}
+
+.teamName {
+  @apply font-semibold text-white mb-1;
+}
+
+.teamTitle {
+  @apply text-sm text-gray-400 mb-1;
+}
+
+.teamOrg {
+  @apply text-xs text-primary-500 mb-3;
+}
+
+.teamSocials {
+  @apply flex justify-center;
+}
+
+.teamSocialLink {
+  @apply p-2 rounded-full glass-effect hover:bg-primary-500 hover:text-white transition-all duration-300;
+}

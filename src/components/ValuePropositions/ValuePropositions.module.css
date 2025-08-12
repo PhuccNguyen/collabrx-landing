@@ -1,0 +1,139 @@
+.section {
+  @apply relative section-padding overflow-hidden;
+  background: linear-gradient(135deg, #0B1220 0%, #1e293b 50%, #0B1220 100%);
+}
+
+.header {
+  @apply text-center mb-20;
+}
+
+.badge {
+  @apply inline-flex items-center space-x-2 px-6 py-3 rounded-full text-sm font-medium mb-6;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(13, 148, 136, 0.1));
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  color: #14B8A6;
+}
+
+.title {
+  @apply text-4xl md:text-6xl font-bold font-sora mb-6 leading-tight;
+}
+
+.subtitle {
+  @apply text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed;
+}
+
+.grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-8 mb-20;
+}
+
+.card {
+  @apply relative p-8 rounded-3xl transition-all duration-500 cursor-pointer;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.card:hover {
+  border-color: rgba(20, 184, 166, 0.3);
+  box-shadow: 0 20px 60px rgba(20, 184, 166, 0.15);
+}
+
+.card::before {
+  content: '';
+  @apply absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.05), rgba(13, 148, 136, 0.05));
+}
+
+.card:hover::before {
+  @apply opacity-100;
+}
+
+.cardHeader {
+  @apply flex items-start space-x-4 mb-6;
+}
+
+.iconContainer {
+  @apply p-4 rounded-2xl text-white flex-shrink-0 shadow-lg;
+}
+
+.cardTitle {
+  @apply text-2xl font-bold font-sora text-white leading-tight;
+}
+
+.cardDescription {
+  @apply text-gray-300 leading-relaxed mb-6;
+}
+
+.featureList {
+  @apply space-y-3 mb-8;
+}
+
+.feature {
+  @apply flex items-start space-x-3 text-gray-300;
+}
+
+.cardFooter {
+  @apply pt-6 border-t border-gray-700;
+}
+
+.learnMoreButton {
+  @apply flex items-center space-x-2 text-primary-500 hover:text-primary-400 font-semibold transition-colors duration-200;
+}
+
+.statsSection {
+  @apply relative p-12 rounded-3xl;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(13, 148, 136, 0.05));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+}
+
+.statsGrid {
+  @apply grid grid-cols-2 md:grid-cols-4 gap-8;
+}
+
+.statCard {
+  @apply text-center;
+}
+
+.statNumber {
+  @apply text-4xl md:text-5xl font-bold font-sora gradient-text mb-2;
+}
+
+.statLabel {
+  @apply text-gray-300 font-medium;
+}
+
+.backgroundElements {
+  @apply absolute inset-0 pointer-events-none;
+}
+
+.glowEffect1 {
+  @apply absolute top-20 right-20 w-96 h-96 rounded-full opacity-20;
+  background: radial-gradient(circle, #14B8A6, transparent 70%);
+  filter: blur(80px);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.glowEffect2 {
+  @apply absolute bottom-20 left-20 w-80 h-80 rounded-full opacity-15;
+  background: radial-gradient(circle, #0d9488, transparent 70%);
+  filter: blur(60px);
+  animation: pulse 6s ease-in-out infinite reverse;
+}
+
+.particleField {
+  @apply absolute inset-0 opacity-30;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, rgba(20, 184, 166, 0.3), transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(13, 148, 136, 0.3), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(20, 184, 166, 0.4), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(13, 148, 136, 0.4), transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.25; transform: scale(1.1); }
+}

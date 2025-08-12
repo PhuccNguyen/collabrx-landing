@@ -1,0 +1,47 @@
+.header {
+  @apply fixed top-0 left-0 right-0 z-50 transition-all duration-300;
+  background: rgba(11, 18, 32, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.scrolled {
+  @apply shadow-lg;
+  background: rgba(11, 18, 32, 0.95);
+}
+
+.logo {
+  @apply relative flex items-center justify-center w-10 h-10 rounded-lg;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(13, 148, 136, 0.2));
+}
+
+.navLink {
+  @apply text-gray-300 hover:text-primary-500 transition-colors duration-200 font-medium;
+}
+
+.ctaButton {
+  @apply px-6 py-2 rounded-full font-medium transition-all duration-200;
+  background: linear-gradient(135deg, #14B8A6, #0d9488);
+  color: white;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(20, 184, 166, 0.3);
+}
+
+.mobileMenu {
+  @apply md:hidden absolute top-full left-0 right-0;
+  background: rgba(11, 18, 32, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobileNavLink {
+  @apply block text-gray-300 hover:text-primary-500 transition-colors duration-200 font-medium;
+}
+
+.mobileCTA {
+  @apply w-full mt-4 px-6 py-3 rounded-full font-medium transition-all duration-200;
+  background: linear-gradient(135deg, #14B8A6, #0d9488);
+  color: white;
+}

@@ -1,0 +1,217 @@
+.section {
+  @apply relative section-padding overflow-hidden;
+  background: linear-gradient(180deg, #1e293b 0%, #0B1220 50%, #1e293b 100%);
+}
+
+.header {
+  @apply text-center mb-20;
+}
+
+.badge {
+  @apply inline-flex items-center space-x-2 px-6 py-3 rounded-full text-sm font-medium mb-6;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(13, 148, 136, 0.1));
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  color: #14B8A6;
+}
+
+.title {
+  @apply text-4xl md:text-6xl font-bold font-sora mb-6 leading-tight;
+}
+
+.subtitle {
+  @apply text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed;
+}
+
+.grid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20;
+}
+
+.solutionCard {
+  @apply relative p-8 rounded-3xl transition-all duration-500;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+}
+
+.solutionCard:hover {
+  transform: translateY(-15px);
+  border-color: rgba(20, 184, 166, 0.3);
+  box-shadow: 0 25px 80px rgba(20, 184, 166, 0.15);
+}
+
+.cardHeader {
+  @apply flex items-start space-x-6 mb-6;
+}
+
+.iconContainer {
+  @apply p-4 rounded-2xl text-white flex-shrink-0 shadow-2xl;
+}
+
+.cardTitle {
+  @apply text-2xl font-bold font-sora text-white leading-tight;
+}
+
+.cardDescription {
+  @apply text-gray-300 leading-relaxed mb-8 text-base;
+}
+
+.tabContainer {
+  @apply mb-6;
+}
+
+.tabs {
+  @apply flex mb-4;
+}
+
+.tab {
+  @apply px-4 py-2 text-sm font-semibold rounded-lg transition-colors duration-200 cursor-pointer;
+}
+
+.tab.active {
+  @apply text-primary-500;
+  background: rgba(20, 184, 166, 0.1);
+}
+
+.tabContent {
+  @apply transition-all duration-300;
+}
+
+.featureGrid {
+  @apply grid grid-cols-1 gap-3;
+}
+
+.featureItem {
+  @apply flex items-center space-x-3 text-gray-300 text-sm;
+}
+
+.metricsSection {
+  @apply mb-8;
+}
+
+.metricsTitle {
+  @apply text-lg font-semibold text-white mb-4;
+}
+
+.metricsList {
+  @apply space-y-2;
+}
+
+.metric {
+  @apply flex items-center space-x-3 text-gray-300 text-sm;
+}
+
+.metricDot {
+  @apply w-2 h-2 rounded-full bg-primary-500 flex-shrink-0;
+}
+
+.cardFooter {
+  @apply pt-6 border-t border-gray-700;
+}
+
+.ctaButton {
+  @apply flex items-center justify-center space-x-2 w-full py-3 rounded-xl font-semibold transition-all duration-300;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(13, 148, 136, 0.1));
+  border: 1px solid rgba(20, 184, 166, 0.3);
+  color: #14B8A6;
+}
+
+.ctaButton:hover {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.3), rgba(13, 148, 136, 0.2));
+  border-color: rgba(20, 184, 166, 0.5);
+  transform: translateY(-2px);
+}
+
+.cardGlow {
+  @apply absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500 pointer-events-none;
+  filter: blur(40px);
+  z-index: -1;
+}
+
+.solutionCard:hover .cardGlow {
+  @apply opacity-10;
+}
+
+.integrationShowcase {
+  @apply relative p-12 rounded-3xl;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.05), rgba(13, 148, 136, 0.02));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(20, 184, 166, 0.1);
+}
+
+.showcaseHeader {
+  @apply text-center mb-12;
+}
+
+.showcaseTitle {
+  @apply text-3xl font-bold font-sora text-white mb-4;
+}
+
+.showcaseDescription {
+  @apply text-gray-300 max-w-2xl mx-auto;
+}
+
+.integrationFlow {
+  @apply flex items-center justify-center flex-wrap gap-4;
+}
+
+.flowStep {
+  @apply flex flex-col items-center space-y-2;
+}
+
+.stepIcon {
+  @apply p-4 rounded-2xl text-primary-500;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(13, 148, 136, 0.05));
+  border: 1px solid rgba(20, 184, 166, 0.2);
+}
+
+.flowArrow {
+  @apply text-gray-400 hidden md:block;
+}
+
+.backgroundElements {
+  @apply absolute inset-0 pointer-events-none;
+}
+
+.meshGradient1 {
+  @apply absolute top-20 right-10 w-96 h-96 rounded-full opacity-20;
+  background: radial-gradient(ellipse at center, #14B8A6, transparent 60%);
+  filter: blur(100px);
+  animation: float 8s ease-in-out infinite;
+}
+
+.meshGradient2 {
+  @apply absolute bottom-20 left-10 w-80 h-80 rounded-full opacity-15;
+  background: radial-gradient(ellipse at center, #0d9488, transparent 60%);
+  filter: blur(80px);
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+.floatingShapes {
+  @apply absolute inset-0;
+}
+
+.shape1, .shape2, .shape3 {
+  @apply absolute w-4 h-4 rounded-full;
+  background: linear-gradient(135deg, #14B8A6, #0d9488);
+  opacity: 0.3;
+  animation: float 6s ease-in-out infinite;
+}
+
+.shape1 {
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.shape2 {
+  top: 70%;
+  right: 20%;
+  animation-delay: 2s;
+}
+
+.shape3 {
+  bottom: 30%;
+  left: 30%;
+  animation-delay: 4s;
+}

@@ -1,0 +1,163 @@
+.footer {
+  @apply relative pt-20 pb-8;
+  background: linear-gradient(180deg, #0B1220 0%, #1e293b 100%);
+}
+
+.mainContent {
+  @apply grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16;
+}
+
+.companySection {
+  @apply lg:col-span-4 space-y-6;
+}
+
+.logo {
+  @apply flex items-center space-x-3;
+}
+
+.logoIcon {
+  @apply relative flex items-center justify-center w-12 h-12 rounded-xl;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(13, 148, 136, 0.2));
+}
+
+.logoText {
+  @apply text-2xl font-sora font-bold gradient-text;
+}
+
+.companyDescription {
+  @apply text-gray-300 leading-relaxed max-w-md;
+}
+
+.socialLinks {
+  @apply flex space-x-4;
+}
+
+.socialLink {
+  @apply p-3 rounded-xl transition-all duration-300;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #9CA3AF;
+}
+
+.socialLink:hover {
+  color: #14B8A6;
+  border-color: rgba(20, 184, 166, 0.3);
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(13, 148, 136, 0.05));
+  transform: translateY(-2px);
+}
+
+.linksGrid {
+  @apply lg:col-span-5 grid grid-cols-2 md:grid-cols-4 gap-8;
+}
+
+.linkSection {
+  @apply space-y-4;
+}
+
+.linkTitle {
+  @apply text-white font-semibold font-sora mb-6;
+}
+
+.linkList {
+  @apply space-y-3;
+}
+
+.link {
+  @apply text-gray-400 hover:text-primary-500 transition-colors duration-200 text-sm;
+}
+
+.contactSection {
+  @apply lg:col-span-3 space-y-6;
+}
+
+.contactTitle {
+  @apply text-white font-semibold font-sora mb-6;
+}
+
+.contactInfo {
+  @apply space-y-4;
+}
+
+.contactItem {
+  @apply flex items-center space-x-3 text-gray-300 text-sm;
+}
+
+.newsletter {
+  @apply space-y-4;
+}
+
+.newsletterTitle {
+  @apply text-lg font-semibold text-white;
+}
+
+.newsletterDescription {
+  @apply text-gray-400 text-sm leading-relaxed;
+}
+
+.newsletterForm {
+  @apply flex rounded-xl overflow-hidden;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.emailInput {
+  @apply flex-1 px-4 py-3 bg-transparent text-white placeholder-gray-500 outline-none text-sm;
+}
+
+.subscribeButton {
+  @apply px-4 py-3 transition-all duration-300 text-white;
+  background: linear-gradient(135deg, #14B8A6, #0d9488);
+}
+
+.subscribeButton:hover {
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  transform: scale(1.05);
+}
+
+.complianceSection {
+  @apply py-8 border-t border-gray-800;
+}
+
+.complianceBadges {
+  @apply flex flex-wrap justify-center gap-4;
+}
+
+.badge {
+  @apply flex items-center space-x-2 px-4 py-2 rounded-full text-sm;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(13, 148, 136, 0.05));
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  color: #14B8A6;
+}
+
+.bottomBar {
+  @apply flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800;
+}
+
+.copyright {
+  @apply text-gray-400 text-sm mb-4 md:mb-0;
+}
+
+.bottomLinks {
+  @apply flex space-x-6;
+}
+
+.bottomLink {
+  @apply text-gray-400 hover:text-primary-500 text-sm transition-colors duration-200;
+}
+
+.backgroundElements {
+  @apply absolute inset-0 pointer-events-none;
+}
+
+.gradientOverlay {
+  @apply absolute inset-0 opacity-30;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.02), rgba(13, 148, 136, 0.05));
+}
+
+.gridPattern {
+  @apply absolute inset-0 opacity-5;
+  background-image: 
+    linear-gradient(rgba(20, 184, 166, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 184, 166, 0.2) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
