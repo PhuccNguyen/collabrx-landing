@@ -1,279 +1,180 @@
-'use client'
+'use client';
 
-import React, { useRef } from 'react'
-import { Shield, Lock, Eye, FileCheck, Zap, CheckCircle, AlertTriangle, Globe } from 'lucide-react'
-import { motion, useInView } from 'framer-motion'
-import styles from './Security.module.css'
+import { useState, useEffect } from 'react';
+import styles from './Security.module.css';
+import { Lock, Shield, Eye, Award, Key, FileCheck, ShieldCheck } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 interface SecurityFeature {
-  id: string
-  icon: React.ReactNode
-  title: string
-  description: string
-  details: string[]
-  compliance: string[]
-  gradient: string
-  delay: number
+  id: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  color: string;
+  details: string[];
 }
 
 const securityFeatures: SecurityFeature[] = [
   {
-    id: '1',
-    icon: <Lock className="w-8 h-8" />,
-    title: 'End-to-End Encryption (E2EE)',
-    description: 'Military-grade AES-256 encryption protecting data throughout its entire lifecycle, from transmission to storage and processing.',
+    id: 'e2e-encryption',
+    title: 'End-to-End Encryption',
+    description: 'Military-grade AES-256 encryption protecting data at rest, in transit, and during processing with zero-knowledge architecture.',
+    icon: Lock,
+    color: 'red',
     details: [
       'AES-256 encryption standard',
-      'RSA-4096 key exchange protocol',
-      'Perfect Forward Secrecy (PFS)',
-      'Hardware Security Module (HSM) integration',
-      'Quantum-resistant cryptography preparation'
-    ],
-    compliance: ['FIPS 140-2 Level 3', 'Common Criteria EAL4+'],
-    gradient: 'from-blue-500 to-cyan-400',
-    delay: 0.1
+      'Zero-knowledge architecture',
+      'Encrypted data transmission',
+      'Secure key management protocols'
+    ]
   },
   {
-    id: '2',
-    icon: <Shield className="w-8 h-8" />,
+    id: 'compliance',
     title: 'HIPAA/GDPR Compliance',
-    description: 'Comprehensive regulatory compliance framework ensuring adherence to global healthcare privacy standards and data protection laws.',
+    description: 'Full compliance with international healthcare privacy regulations and data protection laws with continuous monitoring.',
+    icon: Shield,
+    color: 'orange',
     details: [
-      'HIPAA Security Rule compliance',
-      'GDPR Article 32 technical measures',
-      'Data minimization principles',
-      'Right to be forgotten implementation',
-      'Cross-border data transfer safeguards'
-    ],
-    compliance: ['HIPAA Certified', 'GDPR Compliant', 'SOC 2 Type II'],
-    gradient: 'from-primary-500 to-emerald-400',
-    delay: 0.2
+      'HIPAA compliant infrastructure',
+      'GDPR data protection compliance',
+      'SOC 2 Type II certification',
+      'Regular compliance auditing'
+    ]
   },
   {
-    id: '3',
-    icon: <Eye className="w-8 h-8" />,
+    id: 'audit-trail',
     title: 'Transparent Audit Trail',
-    description: 'Immutable blockchain-based audit logging providing complete visibility into all data access and processing activities.',
+    description: 'Immutable blockchain-based audit logs providing complete transparency and forensic investigation capabilities.',
+    icon: Eye,
+    color: 'yellow',
     details: [
-      'Blockchain-immutable logs',
-      'Real-time activity monitoring',
-      'Tamper-proof audit records',
-      'Automated compliance reporting',
-      'Forensic investigation capabilities'
-    ],
-    compliance: ['21 CFR Part 11', 'ISO 27001', 'GxP Validated'],
-    gradient: 'from-purple-500 to-pink-400',
-    delay: 0.3
+      'Immutable transaction logging',
+      'Real-time audit monitoring',
+      'Comprehensive access tracking',
+      'Forensic investigation tools'
+    ]
+  },
+];
+
+const certifications = [
+  { name: 'HIPAA', icon: Shield },
+  { name: 'GDPR', icon: Eye },
+  { name: 'SOC 2', icon: Award },
+  { name: 'ISO 27001', icon: Key },
+  { name: 'FIPS 140-2', icon: Lock },
+  { name: 'FDA 21 CFR', icon: FileCheck }
+];
+
+const securityStats = [
+  { 
+    value: '99.99%', 
+    label: 'Security Uptime',
+    description: 'Zero security incidents in 5+ years'
+  },
+  { 
+    value: '256-bit', 
+    label: 'Encryption Standard',
+    description: 'Military-grade data protection'
+  },
+  { 
+    value: '<1ms', 
+    label: 'Threat Detection',
+    description: 'Real-time security monitoring'
   }
-]
+];
 
-const complianceCertifications = [
-  { name: 'HIPAA', description: 'Healthcare data protection', icon: <Shield className="w-5 h-5" /> },
-  { name: 'GDPR', description: 'EU data privacy regulation', icon: <Globe className="w-5 h-5" /> },
-  { name: 'SOC 2', description: 'Service organization controls', icon: <CheckCircle className="w-5 h-5" /> },
-  { name: 'ISO 27001', description: 'Information security standard', icon: <Lock className="w-5 h-5" /> },
-  { name: 'FDA 21 CFR Part 11', description: 'Electronic records compliance', icon: <FileCheck className="w-5 h-5" /> },
-  { name: 'FedRAMP', description: 'Federal cloud security', icon: <AlertTriangle className="w-5 h-5" /> },
-]
+export default function Security() {
+  const [mounted, setMounted] = useState(false);
 
-const Security: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null)
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
-    <section ref={sectionRef} id="security" className={styles.section}>
-      <div className="container-custom">
-        {/* Section Header */}
-        <motion.div 
-          className={styles.header}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
-          <div className={styles.badge}>
-            <Shield className="w-5 h-5" />
-            <span>Enterprise-Grade Security</span>
+    <section id="security" className={styles.securitySection}>
+      <div className={styles.securityContainer}>
+        {/* Header */}
+        <div className={styles.securityHeader}>
+          <div className={styles.securityBadge}>
+            <ShieldCheck size={16} />
+            Enterprise Security
           </div>
-          <h2 className={styles.title}>
-            Uncompromising Security
-            <span className="gradient-text"> & Compliance</span>
+          
+          <h2 className={styles.securityTitle}>
+            Enterprise-Grade <span className={styles.securityTitleGradient}>Security</span>
           </h2>
-          <p className={styles.subtitle}>
-            Built with security-first architecture, our platform ensures the highest levels of 
-            data protection, privacy, and regulatory compliance for healthcare organizations worldwide.
+          
+          <p className={styles.securitySubtitle}>
+            Built with security-first principles, our platform ensures the highest levels of data protection, 
+            regulatory compliance, and transparent audit trails for complete peace of mind.
           </p>
-        </motion.div>
-
-        {/* Security Features */}
-        <div className={styles.featuresGrid}>
-          {securityFeatures.map((feature) => (
-            <motion.div
-              key={feature.id}
-              className={styles.featureCard}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: feature.delay }}
-              whileHover={{ y: -15 }}
-            >
-              <div className={styles.cardHeader}>
-                <div className={`${styles.iconContainer} bg-gradient-to-r ${feature.gradient}`}>
-                  {feature.icon}
-                </div>
-                <h3 className={styles.cardTitle}>{feature.title}</h3>
-              </div>
-
-              <p className={styles.cardDescription}>{feature.description}</p>
-
-              <div className={styles.detailsList}>
-                <h4 className={styles.detailsTitle}>Key Features:</h4>
-                {feature.details.map((detail, idx) => (
-                  <div key={idx} className={styles.detailItem}>
-                    <CheckCircle className="w-4 h-4 text-primary-500 flex-shrink-0" />
-                    <span>{detail}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className={styles.complianceSection}>
-                <h4 className={styles.complianceTitle}>Compliance Standards:</h4>
-                <div className={styles.complianceTags}>
-                  {feature.compliance.map((standard, idx) => (
-                    <span key={idx} className={styles.complianceTag}>
-                      {standard}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Card Glow Effect */}
-              <div className={`${styles.cardGlow} bg-gradient-to-r ${feature.gradient}`}></div>
-            </motion.div>
-          ))}
         </div>
 
-        {/* Security Metrics */}
-        <motion.div
-          className={styles.metricsSection}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.5 }}
-        >
-          <div className={styles.metricsHeader}>
-            <h3 className={styles.metricsTitle}>Security by the Numbers</h3>
-            <p className={styles.metricsDescription}>
-              Industry-leading security metrics that demonstrate our commitment to protecting your data
-            </p>
-          </div>
-          
-          <div className={styles.metricsGrid}>
-            <div className={styles.metricCard}>
-              <div className={styles.metricNumber}>99.99%</div>
-              <div className={styles.metricLabel}>Uptime SLA</div>
-              <div className={styles.metricDescription}>Guaranteed availability</div>
-            </div>
-            <div className={styles.metricCard}>
-              <div className={styles.metricNumber}> 1ms</div>
-              <div className={styles.metricLabel}>Threat Detection</div>
-              <div className={styles.metricDescription}>Real-time response</div>
-            </div>
-            <div className={styles.metricCard}>
-              <div className={styles.metricNumber}>256-bit</div>
-              <div className={styles.metricLabel}>AES Encryption</div>
-              <div className={styles.metricDescription}>Military-grade security</div>
-            </div>
-            <div className={styles.metricCard}>
-              <div className={styles.metricNumber}>Zero</div>
-              <div className={styles.metricLabel}>Data Breaches</div>
-              <div className={styles.metricDescription}>Perfect track record</div>
-            </div>
-          </div>
-        </motion.div>
+        {/* Security Features */}
+        <div className={styles.securityFeatures}>
+          {securityFeatures.map((feature) => {
+            const IconComponent = feature.icon;
+            return (
+              <div key={feature.id} className={styles.securityFeature}>
+                {/* Icon */}
+                <div className={`${styles.securityFeatureIcon} ${styles[`icon${feature.color.charAt(0).toUpperCase()}${feature.color.slice(1)}`]}`}>
+                  <IconComponent size={36} color="white" />
+                </div>
 
-        {/* Compliance Certifications */}
-        <motion.div
-          className={styles.certificationsSection}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.7 }}
-        >
-          <div className={styles.certificationsHeader}>
-            <h3 className={styles.certificationsTitle}>Industry Certifications</h3>
-            <p className={styles.certificationsDescription}>
-              Certified and compliant with the most stringent global standards
-            </p>
-          </div>
+                {/* Content */}
+                <div className={styles.securityFeatureContent}>
+                  <h3 className={styles.securityFeatureTitle}>{feature.title}</h3>
+                  <p className={styles.securityFeatureDescription}>{feature.description}</p>
+
+                  {/* Details */}
+                  <ul className={styles.securityFeatureDetails}>
+                    {feature.details.map((detail, index) => (
+                      <li key={index} className={styles.securityDetailItem}>
+                        <div className={`${styles.detailIcon} ${styles[`detailIcon${feature.color.charAt(0).toUpperCase()}${feature.color.slice(1)}`]}`} />
+                        <span className={styles.detailText}>{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Certifications */}
+        <div className={styles.certificationsSection}>
+          <h3 className={styles.certificationsTitle}>
+            Certifications & Compliance Standards
+          </h3>
           
           <div className={styles.certificationsGrid}>
-            {complianceCertifications.map((cert, index) => (
-              <motion.div
-                key={cert.name}
-                className={styles.certificationCard}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.5, delay: 0.8 + (index * 0.1) }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <div className={styles.certIcon}>
-                  {cert.icon}
+            {certifications.map((cert, index) => {
+              const IconComponent = cert.icon;
+              return (
+                <div key={index} className={styles.certificationItem}>
+                  <div className={styles.certificationIcon}>
+                    <IconComponent size={24} />
+                  </div>
+                  <div className={styles.certificationName}>{cert.name}</div>
                 </div>
-                <h4 className={styles.certName}>{cert.name}</h4>
-                <p className={styles.certDescription}>{cert.description}</p>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Security Architecture Diagram */}
-        <motion.div
-          className={styles.architectureSection}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.9 }}
-        >
-          <div className={styles.architectureHeader}>
-            <h3 className={styles.architectureTitle}>Multi-Layer Security Architecture</h3>
-          </div>
-          
-          <div className={styles.architectureLayers}>
-            <div className={styles.layer}>
-              <div className={styles.layerIcon}>
-                <Globe className="w-6 h-6" />
-              </div>
-              <div className={styles.layerContent}>
-                <h4>Application Layer</h4>
-                <p>Web application firewall, API security, input validation</p>
-              </div>
+        {/* Security Statistics */}
+        <div className={styles.securityStats}>
+          {securityStats.map((stat, index) => (
+            <div key={index} className={styles.securityStat}>
+              <span className={styles.statValue}>{stat.value}</span>
+              <div className={styles.statLabel}>{stat.label}</div>
+              <div className={styles.statDescription}>{stat.description}</div>
             </div>
-            <div className={styles.layer}>
-              <div className={styles.layerIcon}>
-                <Lock className="w-6 h-6" />
-              </div>
-              <div className={styles.layerContent}>
-                <h4>Data Layer</h4>
-                <p>Encryption at rest, tokenization, data masking</p>
-              </div>
-            </div>
-            <div className={styles.layer}>
-              <div className={styles.layerIcon}>
-                <Shield className="w-6 h-6" />
-              </div>
-              <div className={styles.layerContent}>
-                <h4>Infrastructure Layer</h4>
-                <p>Network segmentation, intrusion detection, DDoS protection</p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Background Elements */}
-      <div className={styles.backgroundElements}>
-        <div className={styles.securityGrid}></div>
-        <div className={styles.glowEffect1}></div>
-        <div className={styles.glowEffect2}></div>
+          ))}
+        </div>
       </div>
     </section>
-  )
+  );
 }
-
-export default Security

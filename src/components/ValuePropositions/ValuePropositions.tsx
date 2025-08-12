@@ -1,182 +1,147 @@
-'use client'
+'use client';
 
-import React, { useRef } from 'react'
-import { Shield, Database, Lock, Activity, CheckCircle, ArrowRight } from 'lucide-react'
-import { motion, useInView } from 'framer-motion'
-import styles from './ValuePropositions.module.css'
+import { useState, useEffect } from 'react';
+import styles from './ValuePropositions.module.css';
+import type { LucideIcon } from 'lucide-react';
+
+import { Link, Shield, Lock, FileCheck, Award } from 'lucide-react';
 
 interface ValueProp {
-  id: string
-  icon: React.ReactNode
-  title: string
-  description: string
-  features: string[]
-  gradient: string
-  delay: number
+  id: string;
+  title: string;
+  description: string;
+ icon: LucideIcon;  
+color: string;
+  features: string[];
 }
 
 const valueProps: ValueProp[] = [
   {
-    id: '1',
-    icon: <Database className="w-8 h-8" />,
+    id: 'data-provenance',
     title: 'On-chain Data Provenance',
-    description: 'Immutable audit trails for all medical data interactions, ensuring complete transparency and accountability in healthcare processes.',
+    description: 'Complete traceability and immutable audit trails for all medical data transactions, ensuring unprecedented transparency and accountability.',
+    icon: Link,
+    color: 'blue',
     features: [
-      'Blockchain-based data lineage tracking',
-      'Cryptographic proof of data integrity',
-      'Tamper-proof medical records',
-      'Real-time provenance verification'
-    ],
-    gradient: 'from-blue-500 to-cyan-400',
-    delay: 0.1
+      'Immutable blockchain ledger tracking',
+      'Real-time data lineage visualization',
+      'Cryptographic proof of authenticity',
+      'Comprehensive audit trail reporting'
+    ]
   },
   {
-    id: '2',
-    icon: <Shield className="w-8 h-8" />,
+    id: 'consent-service',
     title: 'Consent-as-a-Service',
-    description: 'Dynamic, granular consent management with smart contracts that automatically enforce patient privacy preferences.',
+    description: 'Advanced consent management platform providing patients with granular control over their data usage and sharing permissions.',
+    icon: Shield,
+    color: 'teal',
     features: [
-      'Smart contract-based consent',
       'Granular permission controls',
-      'Automated compliance enforcement',
-      'Patient-controlled data sharing'
-    ],
-    gradient: 'from-primary-500 to-emerald-400',
-    delay: 0.2
+      'Dynamic consent management',
+      'Patient-controlled data sharing',
+      'Automated compliance monitoring'
+    ]
   },
   {
-    id: '3',
-    icon: <Lock className="w-8 h-8" />,
+    id: 'privacy-compute',
     title: 'Privacy-first Compute',
-    description: 'Advanced encryption and secure multi-party computation ensuring data remains private during processing and analysis.',
+    description: 'State-of-the-art encryption and secure multi-party computation protecting sensitive health information throughout processing.',
+    icon: Lock,
+    color: 'purple',
     features: [
-      'Homomorphic encryption support',
-      'Zero-knowledge proof integration',
+      'Zero-knowledge computation protocols',
+      'End-to-end encryption everywhere',
       'Secure multi-party computation',
-      'Private federated learning'
-    ],
-    gradient: 'from-purple-500 to-pink-400',
-    delay: 0.3
+      'Homomorphic encryption support'
+    ]
   },
   {
-    id: '4',
-    icon: <Activity className="w-8 h-8" />,
+    id: 'fhir-ready',
     title: 'FHIR & HL7 Ready',
-    description: 'Full interoperability with existing healthcare systems through standardized protocols and seamless integration capabilities.',
+    description: 'Seamless integration with existing healthcare systems through industry-standard protocols and comprehensive API support.',
+    icon: FileCheck,
+    color: 'orange',
     features: [
-      'FHIR R4 compliance',
+      'FHIR R4 full compliance',
       'HL7 message processing',
-      'EMR system integration',
-      'API-first architecture'
-    ],
-    gradient: 'from-orange-500 to-red-400',
-    delay: 0.4
-  }
-]
+      'RESTful API architecture',
+      'Legacy system integration'
+    ]
+  },
+];
 
-const ValuePropositions: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null)
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
+export default function ValuePropositions() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
-    <section ref={sectionRef} id="values" className={styles.section}>
-      <div className="container-custom">
-        {/* Section Header */}
-        <motion.div 
-          className={styles.header}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
-          <div className={styles.badge}>
-            <Shield className="w-5 h-5" />
-            <span>Core Value Propositions</span>
+    <section id="values" className={styles.valueSection}>
+      <div className={styles.valueContainer}>
+        {/* Header */}
+        <div className={styles.valueHeader}>
+          <div className={styles.valueBadge}>
+            <Award size={16} />
+            Core Value Propositions
           </div>
-          <h2 className={styles.title}>
-            Revolutionary Healthcare Technology
-            <span className="gradient-text"> Built on Trust</span>
+          
+          <h2 className={styles.valueTitle}>
+            Revolutionary <span className={styles.valueTitleGradient}>Healthcare Technology</span>
           </h2>
-          <p className={styles.subtitle}>
-            Our platform combines cutting-edge cloud computing with blockchain security 
-            to deliver unprecedented transparency, privacy, and interoperability in healthcare.
+          
+          <p className={styles.valueSubtitle}>
+            Advanced features that position CollabRx at the forefront of healthcare innovation, 
+            delivering unmatched security, transparency, and interoperability.
           </p>
-        </motion.div>
-
-        {/* Value Props Grid */}
-        <div className={styles.grid}>
-          {valueProps.map((prop) => (
-            <motion.div
-              key={prop.id}
-              className={styles.card}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: prop.delay }}
-              whileHover={{ y: -10, scale: 1.02 }}
-            >
-              <div className={styles.cardHeader}>
-                <div className={`${styles.iconContainer} bg-gradient-to-r ${prop.gradient}`}>
-                  {prop.icon}
-                </div>
-                <h3 className={styles.cardTitle}>{prop.title}</h3>
-              </div>
-              
-              <p className={styles.cardDescription}>{prop.description}</p>
-              
-              <div className={styles.featureList}>
-                {prop.features.map((feature, index) => (
-                  <div key={index} className={styles.feature}>
-                    <CheckCircle className="w-5 h-5 text-primary-500 flex-shrink-0" />
-                    <span>{feature}</span>
-                  </div>
-                ))}
-              </div>
-              
-              <div className={styles.cardFooter}>
-                <button className={styles.learnMoreButton}>
-                  <span>Learn More</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </motion.div>
-          ))}
         </div>
 
-        {/* Stats Section */}
-        <motion.div
-          className={styles.statsSection}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          <div className={styles.statsGrid}>
-            <div className={styles.statCard}>
-              <div className={styles.statNumber}>99.9%</div>
-              <div className={styles.statLabel}>Data Integrity</div>
-            </div>
-            <div className={styles.statCard}>
-              <div className={styles.statNumber}>256-bit</div>
-              <div className={styles.statLabel}>Encryption</div>
-            </div>
-            <div className={styles.statCard}>
-              <div className={styles.statNumber}>100+</div>
-              <div className={styles.statLabel}>Healthcare Partners</div>
-            </div>
-            <div className={styles.statCard}>
-              <div className={styles.statNumber}>24/7</div>
-              <div className={styles.statLabel}>Monitoring</div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-      
-      {/* Background Elements */}
-      <div className={styles.backgroundElements}>
-        <div className={styles.glowEffect1}></div>
-        <div className={styles.glowEffect2}></div>
-        <div className={styles.particleField}></div>
+        {/* Value Props Grid */}
+        <div className={styles.valueGrid}>
+          {valueProps.map((prop) => {
+            const IconComponent = prop.icon;
+            return (
+              <div key={prop.id} className={styles.valueCard}>
+                {/* Icon */}
+                <div className={`${styles.valueCardIcon} ${styles[`icon${prop.color.charAt(0).toUpperCase()}${prop.color.slice(1)}`]}`}>
+                  <IconComponent size={32} color="white" />
+                </div>
+
+                {/* Content */}
+                <div className={styles.valueCardContent}>
+                  <h3 className={styles.valueCardTitle}>{prop.title}</h3>
+                  <p className={styles.valueCardDescription}>{prop.description}</p>
+
+                  {/* Features */}
+                  <ul className={styles.valueCardFeatures}>
+                    {prop.features.map((feature, index) => (
+                      <li key={index} className={styles.valueCardFeature}>
+                        <div className={`${styles.featureIcon} ${styles[`featureIcon${prop.color.charAt(0).toUpperCase()}${prop.color.slice(1)}`]}`} />
+                        <span className={styles.featureText}>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Bottom Section */}
+        <div className={styles.valueBottom}>
+          <h3 className={styles.valueBottomTitle}>
+            Enterprise-Ready Integration
+          </h3>
+          <p className={styles.valueBottomText}>
+            All value propositions work seamlessly together to create a comprehensive healthcare 
+            technology platform that scales with your organization&apos;s needs while maintaining 
+            the highest standards of security and compliance.
+          </p>
+        </div>
       </div>
     </section>
-  )
+  );
 }
-
-export default ValuePropositions

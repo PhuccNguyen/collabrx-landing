@@ -1,16 +1,21 @@
+# Docker/Dockerfile.dev
 FROM node:20-alpine
-
 WORKDIR /app
+RUN apk add --no-cache libc6-compat
 
-# Copy package files
+# copy package files trước để cache layer cài deps
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# dùng npm install cho môi trường DEV (bỏ qua lock mismatch)
+RUN npm install
 
-# Copy app source
+# copy nốt source (sẽ bị volume mount đè khi up)
 COPY . .
 
-EXPOSE 3000
+ENV NODE_ENV=development
+ENV HOSTNAME=0.0.0.0
+ENV CHOKIDAR_USEPOLLING=true
+ENV WATCHPACK_POLLING=true
 
+EXPOSE 3000 9229
 CMD ["npm", "run", "dev"]

@@ -1,280 +1,405 @@
-'use client'
+'use client';
 
-import React, { useRef, useMemo } from 'react'
-import { Canvas, useFrame, extend } from '@react-three/fiber'
-import { Sphere, Box, Torus, Float, Line, Trail, Sparkles } from '@react-three/drei'
-import { Line2 } from 'three/examples/jsm/lines/Line2.js'
-import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js'
-import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js'
-import * as THREE from 'three'
+import { useRef, useMemo, Suspense } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Mesh, Group, BufferGeometry, Material } from 'three';
+import * as THREE from 'three';
 
-
-// Extend the three-fiber catalog with Line2
-extend({ Line2, LineMaterial, LineGeometry })
-
-const AnimatedSphere: React.FC<{ position: [number, number, number]; color: string; delay: number }> = ({ 
+// Enhanced Floating Cube với improved animation
+function FloatingCube({ 
   position, 
   color, 
-  delay 
-}) => {
-  const meshRef = useRef<THREE.Mesh>(null)
-  const materialRef = useRef<THREE.MeshStandardMaterial>(null)
+  scale = 0.8,
+  speed = 0.5 
+}: { 
+  position: [number, number, number];
+  color: string;
+  scale?: number;
+  speed?: number;
+}) {
+  const meshRef = useRef<Mesh>(null!);
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime();
+    if (meshRef.current) {
+      meshRef.current.rotation.x = Math.sin(time * speed + position[0]) * 0.4;
+      meshRef.current.rotation.y = time * speed * 0.7;
+      meshRef.current.rotation.z = Math.cos(time * speed + position[2]) * 0.3;
+      meshRef.current.position.y = position[1] + Math.sin(time * 1.5 + position[0]) * 0.4;
+      meshRef.current.position.x = position[0] + Math.cos(time * 0.8 + position[1]) * 0.2;
+    }
+  });
+
+  return (
+    <mesh ref={meshRef} position={position} scale={scale}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial 
+        color={color} 
+        transparent 
+        opacity={0.8}
+        wireframe
+        emissive={color}
+        emissiveIntensity={0.1}
+      />
+    </mesh>
+  );
+}
+
+// Enhanced DNA Helix với more complex animation
+function DNAHelix() {
+  const groupRef = useRef<Group>(null!);
   
   useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = state.clock.elapsedTime * 0.2 + delay
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.3 + delay
+    if (groupRef.current) {
+      groupRef.current.rotation.y = state.clock.elapsedTime * 0.4;
+      groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.3;
+    }
+  });
+
+  const helixPoints = useMemo(() => {
+    const points = [];
+    const doubleHelix = [];
+    
+    for (let i = 0; i < 40; i++) {
+      const angle = (i / 40) * Math.PI * 4;
+      const x1 = Math.cos(angle) * 0.5;
+      const z1 = Math.sin(angle) * 0.5;
+      const x2 = Math.cos(angle + Math.PI) * 0.5;
+      const z2 = Math.sin(angle + Math.PI) * 0.5;
+      const y = (i / 40) * 4 - 2;
       
-      // Pulsing effect
-      const pulse = Math.sin(state.clock.elapsedTime * 2 + delay) * 0.1 + 1
-      meshRef.current.scale.setScalar(pulse)
+      points.push([x1, y, z1] as [number, number, number]);
+      doubleHelix.push([x2, y, z2] as [number, number, number]);
     }
     
-    if (materialRef.current) {
-      const glow = Math.sin(state.clock.elapsedTime * 3 + delay) * 0.1 + 0.3
-      materialRef.current.emissiveIntensity = glow
-    }
-  })
+    return { points, doubleHelix };
+  }, []);
 
   return (
-    <Float speed={1 + delay * 0.5} rotationIntensity={0.5} floatIntensity={0.8}>
-      <Sphere ref={meshRef} args={[0.6, 32, 32]} position={position}>
-        <meshStandardMaterial
-          ref={materialRef}
-          color={color}
-          transparent
-          opacity={0.8}
-          emissive={color}
-          emissiveIntensity={0.3}
-          roughness={0.2}
-          metalness={0.8}
-        />
-      </Sphere>
-      <Sparkles 
-        count={20} 
-        scale={2} 
-        size={2} 
-        speed={0.5}
-        color={color}
-        position={position}
-      />
-    </Float>
-  )
-}
-
-const BlockchainCube: React.FC<{ position: [number, number, number]; delay: number }> = ({ position, delay }) => {
-  const meshRef = useRef<THREE.Mesh>(null)
-  const wireframeMeshRef = useRef<THREE.Mesh>(null)
-  
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.5 + delay
-      meshRef.current.rotation.x = state.clock.elapsedTime * 0.3 + delay
-    }
-    if (wireframeMeshRef.current) {
-      wireframeMeshRef.current.rotation.y = state.clock.elapsedTime * -0.3 + delay
-      wireframeMeshRef.current.rotation.x = state.clock.elapsedTime * -0.2 + delay
-    }
-  })
-
-  return (
-    <Float speed={2 + delay * 0.3} rotationIntensity={1} floatIntensity={1.2}>
-      <group position={position}>
-        {/* Solid core */}
-        <Box ref={meshRef} args={[0.8, 0.8, 0.8]}>
-          <meshStandardMaterial
-            color="#0d9488"
-            transparent
-            opacity={0.3}
-            emissive="#0d9488"
-            emissiveIntensity={0.2}
-            roughness={0.1}
-            metalness={0.9}
+    <group ref={groupRef} position={[-3.5, 0, -1]}>
+      {/* First helix strand */}
+      {helixPoints.points.map((point, index) => (
+        <mesh key={`helix1-${index}`} position={point}>
+          <sphereGeometry args={[0.08]} />
+          <meshStandardMaterial 
+            color="#14b8a6"
+            emissive="#14b8a6"
+            emissiveIntensity={0.3}
           />
-        </Box>
-        {/* Wireframe overlay */}
-        <Box ref={wireframeMeshRef} args={[1, 1, 1]}>
-          <meshStandardMaterial
-            color="#14B8A6"
-            wireframe
-            transparent
-            opacity={0.7}
-            emissive="#14B8A6"
-            emissiveIntensity={0.1}
-          />
-        </Box>
-      </group>
-    </Float>
-  )
-}
-
-const ConnectingLines: React.FC = () => {
-  // ✅ khai báo kiểu rõ ràng
-  const points: [number, number, number][] = useMemo(() => [
-    [-2,  1,  0],
-    [ 0,  0,  0],
-    [ 2, -1,  0],
-    [ 0,  0,  0],
-    [-3, -1, -1],
-    [ 0,  0,  0],
-    [ 3,  1, -1],
-  ], []);
-
-  return (
-    <>
-      {points.slice(0, -1).map((point, index) => {
-        if (index % 2 === 1) return null // Skip center points for rendering
-        const nextPoint = points[index + 1]
-        return (
-          <Line
-            key={index}
-            // ✅ ép TypeScript hiểu đây là 2 tuple 3D
-            points={[
-              point as [number, number, number],
-              nextPoint as [number, number, number],
-            ]}
-            color="#14B8A6"
-            lineWidth={2}
-            transparent
-            opacity={0.6}
-            dashed
-            dashSize={0.1}
-            gapSize={0.05}
-          />
-        )
-      })}
-    </>
-  )
-}
-
-const DataParticles: React.FC = () => {
-  const particleCount = 50
-  const particles = useMemo(() => {
-    const temp = []
-    for (let i = 0; i < particleCount; i++) {
-      temp.push({
-        position: [
-          (Math.random() - 0.5) * 10,
-          (Math.random() - 0.5) * 10,
-          (Math.random() - 0.5) * 10
-        ] as [number, number, number],
-        speed: Math.random() * 0.5 + 0.1,
-        color: Math.random() > 0.5 ? "#14B8A6" : "#0d9488"
-      })
-    }
-    return temp
-  }, [])
-
-  return (
-    <>
-      {particles.map((particle, index) => (
-        <Float key={index} speed={particle.speed} floatIntensity={2}>
-          <Sphere args={[0.02, 8, 8]} position={particle.position}>
-            <meshBasicMaterial color={particle.color} transparent opacity={0.8} />
-          </Sphere>
-        </Float>
+        </mesh>
       ))}
-    </>
-  )
+      
+      {/* Second helix strand */}
+      {helixPoints.doubleHelix.map((point, index) => (
+        <mesh key={`helix2-${index}`} position={point}>
+          <sphereGeometry args={[0.08]} />
+          <meshStandardMaterial 
+            color="#2dd4bf"
+            emissive="#2dd4bf"
+            emissiveIntensity={0.3}
+          />
+        </mesh>
+      ))}
+      
+      {/* Connecting bonds */}
+      {helixPoints.points.map((point, index) => {
+        if (index % 3 === 0 && index < helixPoints.doubleHelix.length) {
+          const endPoint = helixPoints.doubleHelix[index];
+          const midPoint = [
+            (point[0] + endPoint[0]) / 2,
+            (point[1] + endPoint[1]) / 2,
+            (point[2] + endPoint[2]) / 2
+          ] as [number, number, number];
+          
+          return (
+            <mesh key={`bond-${index}`} position={midPoint}>
+              <cylinderGeometry args={[0.02, 0.02, 1]} />
+              <meshStandardMaterial 
+                color="#0ea5e9"
+                transparent
+                opacity={0.6}
+              />
+            </mesh>
+          );
+        }
+        return null;
+      })}
+    </group>
+  );
 }
 
-const RotatingTorus: React.FC = () => {
-  const torusRef = useRef<THREE.Mesh>(null)
-  const torus2Ref = useRef<THREE.Mesh>(null)
+// Enhanced Central Sphere với pulsing effect
+function CentralSphere() {
+  const meshRef = useRef<Mesh<BufferGeometry, Material | Material[]>>(null!);
+  const innerSphereRef = useRef<Mesh<BufferGeometry, Material | Material[]>>(null!);
   
   useFrame((state) => {
-    if (torusRef.current) {
-      torusRef.current.rotation.x = state.clock.elapsedTime * 0.2
-      torusRef.current.rotation.y = state.clock.elapsedTime * 0.3
+    const time = state.clock.elapsedTime;
+    if (meshRef.current) {
+      meshRef.current.rotation.x = Math.sin(time * 0.4) * 0.1;
+      meshRef.current.rotation.y = time * 0.3;
+      meshRef.current.position.y = Math.sin(time * 0.8) * 0.3;
+      
+      // Pulsing scale effect
+      const scale = 1 + Math.sin(time * 2) * 0.1;
+      meshRef.current.scale.setScalar(scale);
     }
-    if (torus2Ref.current) {
-      torus2Ref.current.rotation.x = state.clock.elapsedTime * -0.15
-      torus2Ref.current.rotation.z = state.clock.elapsedTime * 0.25
+    
+    if (innerSphereRef.current) {
+      innerSphereRef.current.rotation.x = -time * 0.2;
+      innerSphereRef.current.rotation.y = -time * 0.4;
+      const innerScale = 0.7 + Math.cos(time * 2.5) * 0.05;
+      innerSphereRef.current.scale.setScalar(innerScale);
     }
-  })
+  });
 
   return (
-    <>
-      <Torus ref={torusRef} args={[2.5, 0.1, 16, 100]} position={[0, 0, -2]}>
+    <group position={[0, 0, 0]}>
+      {/* Outer sphere */}
+      <mesh ref={meshRef}>
+        <sphereGeometry args={[1.2, 32, 32]} />
         <meshStandardMaterial
-          color="#14B8A6"
+          color="#14b8a6"
+          emissive="#14b8a6"
+          emissiveIntensity={0.15}
+          transparent
+          opacity={0.7}
+          wireframe
+        />
+      </mesh>
+      
+      {/* Inner sphere */}
+      <mesh ref={innerSphereRef}>
+        <sphereGeometry args={[0.8, 24, 24]} />
+        <meshStandardMaterial
+          color="#2dd4bf"
+          emissive="#2dd4bf"
+          emissiveIntensity={0.2}
+          transparent
+          opacity={0.5}
+        />
+      </mesh>
+    </group>
+  );
+}
+
+// Enhanced Particle Field với layers
+function ParticleField() {
+  const pointsRef = useRef<THREE.Points>(null!);
+  const pointsRef2 = useRef<THREE.Points>(null!);
+  
+  const { particles1, particles2 } = useMemo(() => {
+    const temp1 = new Float32Array(1500 * 3);
+    const temp2 = new Float32Array(800 * 3);
+    
+    // First layer - larger spread
+    for (let i = 0; i < 1500; i++) {
+      temp1[i * 3] = (Math.random() - 0.5) * 20;
+      temp1[i * 3 + 1] = (Math.random() - 0.5) * 20;
+      temp1[i * 3 + 2] = (Math.random() - 0.5) * 20;
+    }
+    
+    // Second layer - closer particles
+    for (let i = 0; i < 800; i++) {
+      temp2[i * 3] = (Math.random() - 0.5) * 12;
+      temp2[i * 3 + 1] = (Math.random() - 0.5) * 12;
+      temp2[i * 3 + 2] = (Math.random() - 0.5) * 12;
+    }
+    
+    return { particles1: temp1, particles2: temp2 };
+  }, []);
+
+  useFrame((state) => {
+    const time = state.clock.elapsedTime;
+    if (pointsRef.current) {
+      pointsRef.current.rotation.y = time * 0.02;
+      pointsRef.current.rotation.x = time * 0.01;
+    }
+    if (pointsRef2.current) {
+      pointsRef2.current.rotation.y = -time * 0.03;
+      pointsRef2.current.rotation.z = time * 0.01;
+    }
+  });
+
+  return (
+    <group>
+      {/* First particle layer */}
+      <points ref={pointsRef}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={particles1.length / 3}
+            array={particles1}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          color="#2dd4bf"
+          size={0.02}
           transparent
           opacity={0.4}
-          emissive="#14B8A6"
-          emissiveIntensity={0.2}
-          roughness={0.2}
-          metalness={0.8}
+          sizeAttenuation={true}
         />
-      </Torus>
-      <Torus ref={torus2Ref} args={[1.8, 0.08, 12, 80]} position={[0, 0, -1.5]} rotation={[Math.PI / 2, 0, 0]}>
-        <meshStandardMaterial
-          color="#0d9488"
+      </points>
+      
+      {/* Second particle layer */}
+      <points ref={pointsRef2}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={particles2.length / 3}
+            array={particles2}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          color="#0ea5e9"
+          size={0.015}
           transparent
-          opacity={0.3}
-          emissive="#0d9488"
-          emissiveIntensity={0.15}
-          roughness={0.3}
-          metalness={0.7}
+          opacity={0.6}
+          sizeAttenuation={true}
         />
-      </Torus>
-    </>
-  )
+      </points>
+    </group>
+  );
 }
 
-const CloudBlockchainScene: React.FC = () => {
+// Network Connections
+function NetworkConnections() {
+  const linesRef = useRef<
+    THREE.LineSegments<THREE.BufferGeometry, THREE.LineBasicMaterial>
+  >(null!);
+  
+  const connectionGeometry = useMemo(() => {
+    const vertices = [];
+    const colors = [];
+    
+    // Create network connections
+    const nodes = [
+      [0, 0, 0],        // Center
+      [3, 0, -1],       // Blockchain area
+      [-3.5, 0, -1],    // DNA area
+      [1.5, 2, 1],      // Top right
+      [-1.5, -2, 1],    // Bottom left
+      [2, -1.5, -2],    // Bottom right back
+      [-2, 1.5, 2],     // Top left front
+    ];
+    
+    // Connect nodes with lines
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        if (Math.random() > 0.6) { // Random connections
+          vertices.push(...nodes[i], ...nodes[j]);
+          
+          // Color gradient
+          colors.push(0.08, 0.72, 0.65, 0.08, 0.72, 0.65); // #14b8a6
+        }
+      }
+    }
+    
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    
+    return geometry;
+  }, []);
+  
+  useFrame((state) => {
+    if (!linesRef.current) return;
+    const mat = linesRef.current.material; // now LineBasicMaterial
+    mat.transparent = true;
+    mat.opacity = 0.3 + Math.sin(state.clock.elapsedTime * 2) * 0.2;
+  });
+
   return (
-    <div className="w-full h-full relative">
+    <lineSegments ref={linesRef} geometry={connectionGeometry}>
+      <lineBasicMaterial vertexColors transparent opacity={0.3} linewidth={1} />
+    </lineSegments>
+  );
+}
+
+// Main Enhanced Scene
+function Scene() {
+  return (
+    <>
+      {/* Enhanced Lighting */}
+      <ambientLight intensity={0.4} color="#f0f9ff" />
+      <pointLight position={[10, 10, 10]} intensity={1.2} color="#14b8a6" />
+      <pointLight position={[-10, -10, -10]} intensity={0.6} color="#0ea5e9" />
+      <spotLight
+        position={[0, 15, 0]}
+        angle={0.3}
+        penumbra={1}
+        intensity={0.8}
+        color="#2dd4bf"
+      />
+      
+      {/* 3D Objects */}
+      <CentralSphere />
+      <DNAHelix />
+      
+      {/* Enhanced Blockchain Network */}
+      <FloatingCube position={[3, 0, -1]} color="#0ea5e9" scale={0.9} speed={0.6} />
+      <FloatingCube position={[3.8, 0.5, -0.5]} color="#3b82f6" scale={0.7} speed={0.8} />
+      <FloatingCube position={[2.5, -0.5, -1.5]} color="#1d4ed8" scale={0.6} speed={0.7} />
+      <FloatingCube position={[3.2, 0.8, -2]} color="#0ea5e9" scale={0.8} speed={0.5} />
+      <FloatingCube position={[4.2, -0.3, -1.2]} color="#2563eb" scale={0.5} speed={0.9} />
+      
+      {/* Additional floating elements */}
+      <FloatingCube position={[-1, 2.5, 1]} color="#14b8a6" scale={0.4} speed={1.2} />
+      <FloatingCube position={[1, -2.5, 1.5]} color="#2dd4bf" scale={0.6} speed={0.4} />
+      
+      <ParticleField />
+      <NetworkConnections />
+    </>
+  );
+}
+
+// Enhanced Error Fallback
+function SceneFallback() {
+  return (
+    <div style={{
+      position: 'absolute',
+      inset: 0,
+      background: `
+        radial-gradient(circle at 30% 40%, rgba(20, 184, 166, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(14, 165, 233, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at center, rgba(20, 184, 166, 0.04) 0%, transparent 70%)
+      `,
+      pointerEvents: 'none'
+    }} />
+  );
+}
+
+export default function CloudBlockchainScene() {
+  return (
+    <div style={{ 
+      position: 'absolute', 
+      top: 0, 
+      left: 0, 
+      width: '100%', 
+      height: '100%', 
+      zIndex: 0 
+    }}>
       <Canvas
-        camera={{ position: [0, 0, 9], fov: 45 }}
-        style={{ background: 'transparent' }}
+        camera={{ position: [0, 0, 8], fov: 60 }}
         dpr={[1, 2]}
+        performance={{ min: 0.5, max: 1 }}
         gl={{ 
           antialias: true,
           alpha: true,
           powerPreference: "high-performance"
         }}
-      >
-        {/* Enhanced Lighting */}
-        <ambientLight intensity={0.3} />
-        <pointLight position={[10, 10, 10]} intensity={1.2} color="#14B8A6" />
-        <pointLight position={[-10, -10, -10]} intensity={0.8} color="#0d9488" />
-        <pointLight position={[0, 10, 5]} intensity={0.6} color="#06b6d4" />
-        <spotLight
-          position={[0, 5, 5]}
-          angle={0.3}
-          penumbra={1}
-          intensity={0.5}
-          color="#14B8A6"
-          castShadow
-        />
-
-        {/* Main Elements */}
-        <AnimatedSphere position={[-2.5, 1.5, 0]} color="#14B8A6" delay={0} />
-        <AnimatedSphere position={[2.5, -1.5, 0.5]} color="#06b6d4" delay={1} />
-        <AnimatedSphere position={[0, 2, -1]} color="#0d9488" delay={2} />
-        
-        <BlockchainCube position={[0, 0, 0]} delay={0} />
-        <BlockchainCube position={[-3, -1, -1]} delay={0.5} />
-        <BlockchainCube position={[3, 1, -1]} delay={1} />
-        <BlockchainCube position={[1, -2, 1]} delay={1.5} />
-        
-        <ConnectingLines />
-        <RotatingTorus />
-        <DataParticles />
-
-        {/* Post-processing effects */}
-        <fog attach="fog" args={['#0B1220', 8, 20]} />
-      </Canvas>
-      
-      {/* Overlay gradient for better integration */}
-      <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `radial-gradient(circle at center, transparent 20%, rgba(11, 18, 32, 0.3) 70%)`
+        onCreated={(state) => {
+          state.gl.setClearColor('#020617', 0);
         }}
-      />
+      >
+        <color attach="background" args={['#020617']} />
+        <fog attach="fog" args={['#020617', 5, 25]} />
+        <Suspense fallback={<SceneFallback />}>
+          <Scene />
+        </Suspense>
+      </Canvas>
     </div>
-  )
+  );
 }
-
-export default CloudBlockchainScene

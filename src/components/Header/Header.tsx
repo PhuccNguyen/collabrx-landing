@@ -1,99 +1,103 @@
-'use client'
+'use client';
 
-import React, { useState, useEffect } from 'react'
-import { Menu, X, Cloud, Shield } from 'lucide-react'
-import styles from './Header.module.css'
+import { useState, useEffect } from 'react';
+import styles from './Header.module.css';
+import { Menu, X, Cloud, Shield } from 'lucide-react';
 
-const Header: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+export default function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navItems = [
-    { name: 'Solutions', href: '#solutions' },
+    { name: 'Home', href: '#hero' },
     { name: 'Team', href: '#team' },
+    { name: 'Solutions', href: '#solutions' },
     { name: 'Process', href: '#process' },
     { name: 'Security', href: '#security' },
-  ]
+  ];
+
+  const scrollToSection = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsMobileMenuOpen(false);
+  };
 
   return (
-    <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>
-      <div className="container-custom">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className={styles.logo}>
-              <Cloud className="w-8 h-8 text-primary-500" />
-              <Shield className="w-6 h-6 text-primary-500 absolute -top-1 -right-1" />
+    <header className={`${styles.header} ${isScrolled ? styles.headerScrolled : ''}`}>
+      <div className={styles.headerContainer}>
+        {/* Logo */}
+        <div className={styles.logoSection}>
+          <div className={styles.logoIcon}>
+            <Cloud size={20} color="white" />
+            <div className={styles.floatingBadge}>
+              <Shield size={8} />
             </div>
-            <span className="text-xl font-sora font-bold gradient-text">
-              CollabRx
-            </span>
           </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className={styles.navLink}
-              >
-                {item.name}
-              </a>
-            ))}
-          </nav>
-
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <button className={styles.ctaButton}>
-              Get Started
-            </button>
+          <div className={styles.logoText}>
+            Collab<span className={styles.logoAccent}>Rx</span>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
         </div>
 
+        {/* Desktop Navigation */}
+        <nav className={styles.navigation}>
+          {navItems.map((item) => (
+            <button
+              key={item.name}
+              onClick={() => scrollToSection(item.href)}
+              className={styles.navLink}
+            >
+              {item.name}
+            </button>
+          ))}
+        </nav>
+
+        {/* Desktop CTA Buttons */}
+        <div className={styles.ctaButtons}>
+          <a href="#contact" className={`${styles.ctaButton} ${styles.ctaButtonPrimary}`}>
+            Get Started
+          </a>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className={styles.mobileMenuButton}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className={styles.mobileMenu}>
-            <nav className="flex flex-col space-y-4 py-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className={styles.mobileNavLink}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
-              ))}
-              <button className={styles.mobileCTA}>
-                Get Started
+        <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
+          <div className={styles.mobileNavLinks}>
+            {navItems.map((item) => (
+              <button
+                key={item.name}
+                onClick={() => scrollToSection(item.href)}
+                className={styles.mobileNavLink}
+              >
+                {item.name}
               </button>
-            </nav>
+            ))}
           </div>
-        )}
+          <div className={styles.mobileCtaButtons}>
+
+            <a href="#contact" className={`${styles.ctaButton} ${styles.ctaButtonPrimary}`}>
+              Get Started
+            </a>
+          </div>
+        </div>
       </div>
     </header>
-  )
+  );
 }
-
-export default Header

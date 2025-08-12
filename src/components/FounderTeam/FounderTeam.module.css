@@ -1,190 +1,926 @@
-.section {
-  padding: 8rem 1rem;
-  background: linear-gradient(180deg, #0B1220 0%, #1e293b 100%);
+/* Mobile-First Design */
+.teamSection {
+  position: relative;
+  padding: 4rem 0 3rem; /* Mobile-first padding */
+  background: linear-gradient(
+    135deg, 
+    rgba(2, 6, 23, 0.98) 0%, 
+    rgba(15, 23, 42, 0.95) 50%,
+    rgba(30, 41, 59, 0.92) 100%
+  );
+  overflow: hidden;
+  min-height: 100vh;
 }
 
-.header {
-  @apply text-center mb-16;
+.backgroundElements {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
-.title {
-  @apply text-3xl md:text-5xl font-bold mb-6 leading-tight;
-  font-family: 'Sora', sans-serif;
+.floatingOrb {
+  position: absolute;
+  width: 200px; /* Mobile-first size */
+  height: 200px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatOrb 8s ease-in-out infinite;
+  animation-delay: var(--delay);
 }
 
-.subtitle {
-  @apply text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed;
+.floatingOrb:nth-child(1) {
+  top: 10%;
+  left: -5%;
 }
 
-.foundersGrid {
-  @apply grid md:grid-cols-2 gap-12 mb-20;
+.floatingOrb:nth-child(2) {
+  top: 60%;
+  right: -10%;
+  width: 150px; /* Smaller on mobile */
+  height: 150px;
 }
 
-.founderCard {
-  @apply relative p-8 rounded-3xl transition-all duration-500;
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.05), rgba(13, 148, 136, 0.05));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.floatingOrb:nth-child(3) {
+  bottom: 20%;
+  left: 10%;
+  width: 180px; /* Mobile-first size */
+  height: 180px;
 }
 
-.founderCard:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 30px 60px rgba(20, 184, 166, 0.2);
+@keyframes floatOrb {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+  50% { 
+    transform: translate(30px, -30px) scale(1.1);
+    opacity: 0.8;
+  }
 }
 
-.founderImageContainer {
-  @apply relative mb-6;
+.teamContainer {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem; /* Mobile-first padding */
+  z-index: 2;
 }
 
-.imageWrapper {
-  @apply relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden;
-  background: linear-gradient(135deg, #14B8A6, #0d9488);
-  padding: 3px;
+/* Enhanced Header */
+.teamHeader {
+  text-align: center;
+  margin-bottom: 3rem; /* Mobile-first margin */
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.founderImage {
-  @apply object-cover rounded-full;
+.teamBadge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem; /* Mobile-first gap */
+  padding: 0.75rem 1.5rem; /* Mobile-first padding */
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(20, 184, 166, 0.4);
+  border-radius: 50px;
+  color: white;
+  font-size: 0.85rem; /* Mobile-first font size */
+  font-weight: 600;
+  margin-bottom: 2rem; /* Mobile-first margin */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  overflow: hidden;
 }
 
-.founderGlow {
-  @apply absolute inset-0 rounded-full;
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.3), rgba(13, 148, 136, 0.3));
-  filter: blur(20px);
+.badgeGlow {
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, transparent, rgba(20, 184, 166, 0.5), transparent);
+  border-radius: inherit;
   z-index: -1;
-  animation: glow 2s ease-in-out infinite alternate;
+  opacity: 0;
+  animation: badgePulse 3s ease-in-out infinite;
 }
 
-.founderInfo {
-  @apply text-center;
-}
-
-.founderName {
-  @apply text-2xl font-bold mb-2;
-  font-family: 'Sora', sans-serif;
-  background: linear-gradient(135deg, #14B8A6 0%, #06b6d4 25%, #0891b2 50%, #14B8A6 75%, #0d9488 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.founderTitle {
-  @apply text-lg font-semibold text-gray-300 mb-1;
-}
-
-.founderOrg {
-  @apply text-primary-500 font-medium mb-4;
-}
-
-.founderSocials {
-  @apply flex justify-center space-x-4;
-}
-
-.socialLink {
-  @apply p-3 rounded-full transition-all duration-300;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.socialLink:hover {
-  @apply bg-primary-500 text-white;
-}
-
-.visionStatement {
-  @apply mb-20;
-}
-
-.visionContent {
-  @apply text-center max-w-4xl mx-auto p-8 rounded-2xl;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.visionTitle {
-  @apply text-2xl font-bold mb-6;
-  font-family: 'Sora', sans-serif;
-  background: linear-gradient(135deg, #14B8A6 0%, #06b6d4 25%, #0891b2 50%, #14B8A6 75%, #0d9488 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.visionQuote {
-  @apply text-lg text-gray-300 italic leading-relaxed;
-}
-
-.teamSectionTitle {
-  @apply text-2xl font-bold text-center mb-8;
-  font-family: 'Sora', sans-serif;
-  background: linear-gradient(135deg, #14B8A6 0%, #06b6d4 25%, #0891b2 50%, #14B8A6 75%, #0d9488 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.teamCards {
-  @apply grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6;
-}
-
-.teamCard {
-  @apply p-6 rounded-2xl transition-all duration-300;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.teamCard:hover {
-  transform: translateY(-2px);
-}
-
-.teamImageContainer {
-  @apply relative w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden;
-  background: linear-gradient(135deg, #14B8A6, #0d9488);
-  padding: 2px;
-}
-
-.teamImage {
-  @apply object-cover rounded-full;
-}
-
-.teamInfo {
-  @apply text-center;
-}
-
-.teamName {
-  @apply font-semibold text-white mb-1;
+@keyframes badgePulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
 }
 
 .teamTitle {
-  @apply text-sm text-gray-400 mb-1;
+  font-family: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(1.75rem, 6vw, 4rem); /* Mobile-first responsive */
+  font-weight: 800;
+  color: white;
+  margin-bottom: 1rem; /* Mobile-first margin */
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
-.teamOrg {
-  @apply text-xs text-primary-500 mb-3;
+.teamTitleGradient {
+  background: linear-gradient(
+    135deg, 
+    #14b8a6 0%, 
+    #2dd4bf 30%, 
+    #0ea5e9 70%, 
+    #3b82f6 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 16px rgba(20, 184, 166, 0.3));
+  position: relative;
 }
 
-.teamSocials {
-  @apply flex justify-center;
+.teamSubtitle {
+  font-size: clamp(0.95rem, 2.5vw, 1.3rem); /* Mobile-first responsive */
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6; /* Mobile-friendly line height */
+  max-width: 100%; /* Mobile-first */
+  margin: 0 auto 2rem; /* Mobile-first margin */
 }
 
-.teamSocialLink {
-  @apply p-2 rounded-full transition-all duration-300;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Stats Bar */
+.statsBar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* Mobile-first gap */
+  margin-top: 2rem;
+  flex-wrap: wrap; /* Mobile-friendly wrapping */
 }
 
-.teamSocialLink:hover {
-  @apply bg-primary-500 text-white;
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem; /* Mobile-first gap */
+  padding: 1rem 1.5rem; /* Mobile-first padding */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  border-radius: 16px;
+  min-width: 80px; /* Mobile-first min-width */
 }
 
-@keyframes glow {
-  0% { opacity: 0.3; }
-  100% { opacity: 0.6; }
+.statNumber {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.25rem; /* Mobile-first font size */
+  font-weight: 700;
+  color: #14b8a6;
 }
 
-/* Responsive */
-@media (max-width: 640px) {
-  .section {
-    padding: 5rem 1rem;
+.statLabel {
+  font-size: 0.75rem; /* Mobile-first font size */
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Enhanced Team Grid */
+.teamGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile-first: single column */
+  gap: 1.5rem; /* Mobile-first gap */
+  margin-bottom: 3rem; /* Mobile-first margin */
+}
+
+.memberCard {
+  position: relative;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px; /* Mobile-first border radius */
+  padding: 1.5rem; /* Mobile-first padding */
+  text-align: center;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-delay: var(--delay);
+  animation-fill-mode: both;
+}
+
+.cardGlow {
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    135deg, 
+    transparent, 
+    rgba(20, 184, 166, 0.1), 
+    transparent
+  );
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: -1;
+}
+
+.memberCard:hover .cardGlow {
+  opacity: 1;
+}
+
+.memberCardHighlighted {
+  border: 1px solid rgba(20, 184, 166, 0.4);
+  background: rgba(20, 184, 166, 0.06);
+}
+
+.memberCardHighlighted .cardGlow {
+  background: linear-gradient(
+    135deg, 
+    rgba(20, 184, 166, 0.2), 
+    rgba(45, 212, 191, 0.15), 
+    rgba(14, 165, 233, 0.1)
+  );
+  opacity: 0.8;
+  animation: highlightPulse 3s ease-in-out infinite;
+}
+
+@keyframes highlightPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.memberCardActive {
+  transform: translateY(-8px) scale(1.02); /* Reduced for mobile */
+  box-shadow: 0 16px 48px rgba(20, 184, 166, 0.15);
+}
+
+/* Badges */
+.founderBadge {
+  position: absolute;
+  top: -8px; /* Mobile-first position */
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  padding: 0.375rem 1rem; /* Mobile-first padding */
+  border-radius: 16px; /* Mobile-first border radius */
+  font-size: 0.7rem; /* Mobile-first font size */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  z-index: 10;
+}
+
+.experienceBadge {
+  position: absolute;
+  top: 1rem; /* Mobile-first position */
+  right: 1rem;
+  background: rgba(14, 165, 233, 0.15);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  color: #0ea5e9;
+  padding: 0.25rem 0.75rem; /* Mobile-first padding */
+  border-radius: 12px;
+  font-size: 0.65rem; /* Mobile-first font size */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Member Image */
+.memberImageContainer {
+  position: relative;
+  width: 80px; /* Mobile-first size */
+  height: 80px;
+  margin: 0 auto 1.5rem; /* Mobile-first margin */
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(20, 184, 166, 0.3); /* Mobile-first border */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.imageGlow {
+  position: absolute;
+  inset: -4px;
+  background: conic-gradient(
+    from 0deg,
+    rgba(20, 184, 166, 0.4),
+    rgba(45, 212, 191, 0.2),
+    rgba(14, 165, 233, 0.1),
+    rgba(20, 184, 166, 0.4)
+  );
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.5s ease;
+  animation: rotate 8s linear infinite;
+  z-index: -1;
+}
+
+.memberCard:hover .imageGlow {
+  opacity: 1;
+}
+
+.memberCardHighlighted .imageGlow {
+  opacity: 0.6;
+}
+
+.memberImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(20, 184, 166, 0.1),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.memberCard:hover .imageOverlay {
+  opacity: 1;
+}
+
+.memberCard:hover .memberImage {
+  transform: scale(1.05);
+}
+
+/* Member Info */
+.memberInfo {
+  position: relative;
+  z-index: 2;
+}
+
+.memberName {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.1rem; /* Mobile-first font size */
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.375rem; /* Mobile-first margin */
+  transition: all 0.3s ease;
+}
+
+.memberCard:hover .memberName {
+  color: #2dd4bf;
+}
+
+.memberTitle {
+  color: rgba(20, 184, 166, 0.9);
+  font-size: 0.8rem; /* Mobile-first font size */
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+}
+
+.memberOrganization {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem; /* Mobile-first font size */
+  margin-bottom: 1rem;
+}
+
+/* Expertise Tags */
+.expertiseTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem; /* Mobile-first gap */
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.expertiseTag {
+  background: rgba(20, 184, 166, 0.1);
+  border: 1px solid rgba(20, 184, 166, 0.3);
+  color: rgba(20, 184, 166, 0.9);
+  padding: 0.25rem 0.5rem; /* Mobile-first padding */
+  border-radius: 8px;
+  font-size: 0.65rem; /* Mobile-first font size */
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Member Quote */
+.memberQuote {
+  position: relative;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(20, 184, 166, 0.15);
+  border-radius: 12px;
+  padding: 1rem; /* Mobile-first padding */
+  margin: 1rem 0;
+  font-size: 0.8rem; /* Mobile-first font size */
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 0;
+  transform: translateY(15px); /* Reduced for mobile */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quoteIcon {
+  position: absolute;
+  top: -8px; /* Mobile-first position */
+  left: 12px;
+  font-size: 1.5rem; /* Mobile-first font size */
+  color: rgba(20, 184, 166, 0.5);
+  font-family: 'Sora', serif;
+  line-height: 1;
+}
+
+.memberCard:hover .memberQuote,
+.memberCardActive .memberQuote {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Social Links */
+.socialLinks {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem; /* Mobile-first gap */
+  margin-top: 1rem;
+  opacity: 0;
+  transform: translateY(15px); /* Reduced for mobile */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.memberCard:hover .socialLinks,
+.memberCardActive .socialLinks {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.socialLink {
+  width: 32px; /* Mobile-first size */
+  height: 32px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+.socialLink:hover {
+  background: rgba(20, 184, 166, 0.15);
+  border-color: rgba(20, 184, 166, 0.4);
+  color: #2dd4bf;
+  transform: translateY(-2px) scale(1.05);
+}
+
+.hoverOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(20, 184, 166, 0.05),
+    rgba(45, 212, 191, 0.03)
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: inherit;
+}
+
+.memberCard:hover .hoverOverlay {
+  opacity: 1;
+}
+
+/* Enhanced Vision Section */
+.visionSection {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  border-radius: 20px; /* Mobile-first border radius */
+  padding: 2rem 1.5rem; /* Mobile-first padding */
+  text-align: center;
+  overflow: hidden;
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
+}
+
+.visionBackground {
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent,
+    rgba(20, 184, 166, 0.02),
+    transparent
+  );
+  animation: rotate 30s linear infinite;
+  z-index: -1;
+}
+
+.visionContent {
+  position: relative;
+  z-index: 2;
+}
+
+.visionIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px; /* Mobile-first size */
+  height: 60px;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(45, 212, 191, 0.1));
+  border: 1px solid rgba(20, 184, 166, 0.4);
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+  color: #14b8a6;
+}
+
+.visionTitle {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.5rem); /* Mobile-first responsive */
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.visionText {
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem); /* Mobile-first responsive */
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  max-width: 100%; /* Mobile-first */
+  margin: 0 auto 2rem;
+}
+
+.visionHighlight {
+  background: linear-gradient(135deg, #14b8a6, #2dd4bf);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+.visionStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Mobile-first: 3 columns */
+  gap: 1rem; /* Mobile-first gap */
+  margin-top: 2rem;
+}
+
+.visionStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1rem 0.5rem; /* Mobile-first padding */
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(20, 184, 166, 0.15);
+  border-radius: 12px;
+}
+
+.visionStatNumber {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.25rem; /* Mobile-first font size */
+  font-weight: 800;
+  color: #14b8a6;
+}
+
+.visionStatLabel {
+  font-size: 0.7rem; /* Mobile-first font size */
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Tablet Responsive - 768px+ */
+@media (min-width: 768px) {
+  .teamSection {
+    padding: 6rem 0 4rem;
+  }
+
+  .teamContainer {
+    padding: 0 2rem;
+  }
+
+  .teamHeader {
+    margin-bottom: 4rem;
+  }
+
+  .teamBadge {
+    gap: 0.75rem;
+    padding: 0.75rem 2rem;
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .teamSubtitle {
+    max-width: 800px;
+    margin-bottom: 3rem;
+  }
+
+  .statsBar {
+    gap: 2rem;
+  }
+
+  .statItem {
+    padding: 1.25rem 2rem;
+    min-width: 120px;
+  }
+
+  .statNumber {
+    font-size: 1.5rem;
+  }
+
+  .statLabel {
+    font-size: 0.8rem;
+  }
+
+  .teamGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .memberCard {
+    padding: 2rem;
+    border-radius: 24px;
+  }
+
+  .memberImageContainer {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 2rem;
+    border-width: 3px;
+  }
+
+  .memberName {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .memberTitle {
+    font-size: 0.9rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .memberOrganization {
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .expertiseTags {
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .expertiseTag {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.7rem;
+  }
+
+  .memberQuote {
+    padding: 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .quoteIcon {
+    font-size: 2rem;
+    top: -10px;
+  }
+
+  .socialLinks {
+    gap: 1rem;
+  }
+
+  .socialLink {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .visionSection {
+    padding: 3rem;
+    border-radius: 28px;
+  }
+
+  .visionIcon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .visionText {
+    max-width: 900px;
+  }
+
+  .visionStats {
+    gap: 1.5rem;
+  }
+
+  .visionStat {
+    padding: 1.5rem 1rem;
+  }
+
+  .visionStatNumber {
+    font-size: 1.5rem;
+  }
+
+  .visionStatLabel {
+    font-size: 0.8rem;
+  }
+
+  .floatingOrb {
+    width: 300px;
+    height: 300px;
+  }
+
+  .floatingOrb:nth-child(2) {
+    width: 250px;
+    height: 250px;
+  }
+
+  .floatingOrb:nth-child(3) {
+    width: 280px;
+    height: 280px;
+  }
+}
+
+/* Desktop Responsive - 1024px+ */
+@media (min-width: 1024px) {
+  .teamSection {
+    padding: 8rem 0 6rem;
+  }
+
+  .teamGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+  }
+
+  .memberCard:hover {
+    transform: translateY(-10px) scale(1.02);
+  }
+
+  .memberImageContainer {
+    width: 120px;
+    height: 120px;
+    border-width: 4px;
+  }
+
+  .founderBadge {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.8rem;
+    top: -12px;
+  }
+
+  .experienceBadge {
+    padding: 0.375rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Large Desktop - 1440px+ */
+@media (min-width: 1440px) {
+  .teamGrid {
+    gap: 3rem;
+  }
+
+  .memberCard {
+    padding: 2.5rem;
+  }
+}
+
+/* Ultra Small Mobile - max 375px */
+@media (max-width: 375px) {
+  .teamSection {
+    padding: 3rem 0 2rem;
+  }
+
+  .teamContainer {
+    padding: 0 0.75rem;
+  }
+
+  .statsBar {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .statItem {
+    flex-direction: row;
+    padding: 0.75rem 1rem;
+    min-width: 200px;
+    gap: 0.5rem;
+  }
+
+  .memberCard {
+    padding: 1.25rem;
+  }
+
+  .memberImageContainer {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 1.25rem;
+  }
+
+  .expertiseTags {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .visionStats {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .visionStat {
+    flex-direction: row;
+    justify-content: center;
+    padding: 0.75rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px); /* Reduced for mobile */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .memberCard,
+  .teamBadge,
+  .teamHeader,
+  .visionSection,
+  .floatingOrb,
+  .badgeGlow,
+  .highlightPulse {
+    animation: none;
+  }
+
+  .memberCard:hover,
+  .memberCardActive {
+    transform: none;
+  }
+
+  .imageGlow,
+  .visionBackground {
+    animation: none;
+  }
+}
+
+/* Focus Accessibility */
+.memberCard:focus-visible {
+  outline: 2px solid #14b8a6;
+  outline-offset: 2px;
+}
+
+.socialLink:focus-visible {
+  outline: 2px solid #14b8a6;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .memberCard {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .teamTitleGradient {
+    -webkit-text-fill-color: #14b8a6;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .teamSection {
+    background: white;
+    color: black;
+  }
+
+  .backgroundElements,
+  .floatingOrb,
+  .cardGlow,
+  .imageGlow {
+    display: none;
+  }
+
+  .memberCard {
+    border: 1px solid #ccc;
+    background: white;
+    break-inside: avoid;
   }
 }
